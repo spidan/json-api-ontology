@@ -1,0 +1,164 @@
+@prefix : <http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23> .
+
+<http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#expectsInput
+:expectsInput rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf owl:topObjectProperty ;
+              rdfs:domain :JsonObject ;
+              rdfs:range :InputType .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#hasDependency
+:hasDependency rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               rdfs:range [ rdf:type owl:Restriction ;
+                            owl:onProperty owl:topObjectProperty ;
+                            owl:someValuesFrom :InputDataSet
+                          ] ;
+               rdfs:comment "Data values that are depending on this resource, e.g. resources linked to the current resource by properties" .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#hasRoot
+:hasRoot rdf:type owl:ObjectProperty ;
+         rdfs:domain :JsonApi ;
+         rdfs:range [ rdf:type owl:Restriction ;
+                      owl:onProperty :hasRoot ;
+                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                      owl:onClass :JsonObject
+                    ] .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#hasValue
+:hasValue rdf:type owl:ObjectProperty ;
+          rdfs:domain :Compound ,
+                      :JsonObject ;
+          rdfs:range :JsonObject .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#ofType
+:ofType rdf:type owl:ObjectProperty ;
+        rdfs:domain :InputDataSet ;
+        rdfs:range :InputType .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#relatesToObject
+:relatesToObject rdf:type owl:ObjectProperty ;
+                 owl:inverseOf :representsData ;
+                 rdfs:domain :InputDataSet ;
+                 rdfs:range :JsonObject .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#representsData
+:representsData rdf:type owl:ObjectProperty ;
+                rdfs:domain :JsonObject ;
+                rdfs:range :InputDataSet .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#hasKey
+:hasKey rdf:type owl:DatatypeProperty ;
+        rdfs:domain :JsonObject ;
+        rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#hasValue
+:hasValue rdf:type owl:DatatypeProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#Array
+:Array rdf:type owl:Class ;
+       rdfs:subClassOf :Compound .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#Boolean
+:Boolean rdf:type owl:Class ;
+         rdfs:subClassOf :Primitive .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#Compound
+:Compound rdf:type owl:Class ;
+          owl:equivalentClass [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasValue ;
+                                owl:someValuesFrom :JsonObject
+                              ] ;
+          rdfs:subClassOf :JsonObject ;
+          owl:disjointWith :Primitive .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#InputDataSet
+:InputDataSet rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#InputType
+:InputType rdf:type owl:Class ;
+           owl:equivalentClass [ rdf:type owl:Restriction ;
+                                 owl:onProperty :ofType ;
+                                 owl:someValuesFrom :InputType
+                               ] .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#JsonApi
+:JsonApi rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#JsonObject
+:JsonObject rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#Null
+:Null rdf:type owl:Class ;
+      rdfs:subClassOf :Primitive .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#Number
+:Number rdf:type owl:Class ;
+        rdfs:subClassOf :Primitive .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#Object
+:Object rdf:type owl:Class ;
+        rdfs:subClassOf :Compound .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#Primitive
+:Primitive rdf:type owl:Class ;
+           rdfs:subClassOf :JsonObject .
+
+
+###  http://www.semanticweb.org/daniel/ontologies/2021/4/untitled-ontology-23#String
+:String rdf:type owl:Class ;
+        rdfs:subClassOf :Primitive .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Boolean
+                :Null
+                :Number
+                :String
+              )
+] .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
